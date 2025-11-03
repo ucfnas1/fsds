@@ -1,0 +1,25 @@
+# 忽略临时文件夹和检查点
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+# 忽略常见数据文件
+*.csv
+*.xlsx
+*.xls
+*.zip
+*.gz
+*.gzip
+*.feather
+*.geofeather
+*.parquet
+*.geoparquet
+
+# 忽略大文件或数据目录
+data/
+output/
+logs/
+
+# 忽略系统或编辑器文件
+.DS_Store
+Thumbs.db
