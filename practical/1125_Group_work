@@ -1,0 +1,506 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "ed8068ea-4665-4990-b4cf-0f64cc0de7b5",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>id</th>\n",
+       "      <th>listing_url</th>\n",
+       "      <th>scrape_id</th>\n",
+       "      <th>last_scraped</th>\n",
+       "      <th>source</th>\n",
+       "      <th>name</th>\n",
+       "      <th>description</th>\n",
+       "      <th>neighborhood_overview</th>\n",
+       "      <th>picture_url</th>\n",
+       "      <th>host_id</th>\n",
+       "      <th>...</th>\n",
+       "      <th>review_scores_communication</th>\n",
+       "      <th>review_scores_location</th>\n",
+       "      <th>review_scores_value</th>\n",
+       "      <th>license</th>\n",
+       "      <th>instant_bookable</th>\n",
+       "      <th>calculated_host_listings_count</th>\n",
+       "      <th>calculated_host_listings_count_entire_homes</th>\n",
+       "      <th>calculated_host_listings_count_private_rooms</th>\n",
+       "      <th>calculated_host_listings_count_shared_rooms</th>\n",
+       "      <th>reviews_per_month</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>264776</td>\n",
+       "      <td>https://www.airbnb.com/rooms/264776</td>\n",
+       "      <td>20250610032232</td>\n",
+       "      <td>2025-06-11</td>\n",
+       "      <td>city scrape</td>\n",
+       "      <td>Huge Four Bedroom Apartment</td>\n",
+       "      <td>An extremely large and sunny four bedroom grou...</td>\n",
+       "      <td>Catford is a well established London suburb. T...</td>\n",
+       "      <td>https://a0.muscache.com/pictures/hosting/Hosti...</td>\n",
+       "      <td>1389063</td>\n",
+       "      <td>...</td>\n",
+       "      <td>4.74</td>\n",
+       "      <td>4.62</td>\n",
+       "      <td>4.72</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>t</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.51</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>264777</td>\n",
+       "      <td>https://www.airbnb.com/rooms/264777</td>\n",
+       "      <td>20250610032232</td>\n",
+       "      <td>2025-06-11</td>\n",
+       "      <td>city scrape</td>\n",
+       "      <td>One Bedroom Apartment</td>\n",
+       "      <td>Recently refurbished sunny one bedroom first f...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>https://a0.muscache.com/pictures/hosting/Hosti...</td>\n",
+       "      <td>1389063</td>\n",
+       "      <td>...</td>\n",
+       "      <td>4.25</td>\n",
+       "      <td>4.54</td>\n",
+       "      <td>4.42</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>t</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.22</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>264778</td>\n",
+       "      <td>https://www.airbnb.com/rooms/264778</td>\n",
+       "      <td>20250610032232</td>\n",
+       "      <td>2025-06-11</td>\n",
+       "      <td>city scrape</td>\n",
+       "      <td>Two Bedroom Newly Refurbished Apartment</td>\n",
+       "      <td>A large and sunny two bedroom second floor apa...</td>\n",
+       "      <td>Catford is a well established London suburb. T...</td>\n",
+       "      <td>https://a0.muscache.com/pictures/50662093/af12...</td>\n",
+       "      <td>1389063</td>\n",
+       "      <td>...</td>\n",
+       "      <td>4.52</td>\n",
+       "      <td>4.36</td>\n",
+       "      <td>4.38</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>t</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.43</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>264779</td>\n",
+       "      <td>https://www.airbnb.com/rooms/264779</td>\n",
+       "      <td>20250610032232</td>\n",
+       "      <td>2025-06-11</td>\n",
+       "      <td>city scrape</td>\n",
+       "      <td>Refurbished Two Bedroom Apartment</td>\n",
+       "      <td>A large and sunny two bedroom second floor apa...</td>\n",
+       "      <td>Catford is a well established London suburb. T...</td>\n",
+       "      <td>https://a0.muscache.com/pictures/50660860/e440...</td>\n",
+       "      <td>1389063</td>\n",
+       "      <td>...</td>\n",
+       "      <td>4.61</td>\n",
+       "      <td>4.50</td>\n",
+       "      <td>4.47</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>t</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.30</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>264780</td>\n",
+       "      <td>https://www.airbnb.com/rooms/264780</td>\n",
+       "      <td>20250610032232</td>\n",
+       "      <td>2025-06-11</td>\n",
+       "      <td>city scrape</td>\n",
+       "      <td>Spacious refurbished 2 bedroom apt with balcony</td>\n",
+       "      <td>Completely refurbished 2 bedroom apt to sleep ...</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>https://a0.muscache.com/pictures/airflow/Hosti...</td>\n",
+       "      <td>1389063</td>\n",
+       "      <td>...</td>\n",
+       "      <td>4.74</td>\n",
+       "      <td>4.37</td>\n",
+       "      <td>4.59</td>\n",
+       "      <td>NaN</td>\n",
+       "      <td>t</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>11.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>0.35</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "<p>5 rows × 79 columns</p>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "       id                          listing_url       scrape_id last_scraped  \\\n",
+       "0  264776  https://www.airbnb.com/rooms/264776  20250610032232   2025-06-11   \n",
+       "1  264777  https://www.airbnb.com/rooms/264777  20250610032232   2025-06-11   \n",
+       "2  264778  https://www.airbnb.com/rooms/264778  20250610032232   2025-06-11   \n",
+       "3  264779  https://www.airbnb.com/rooms/264779  20250610032232   2025-06-11   \n",
+       "4  264780  https://www.airbnb.com/rooms/264780  20250610032232   2025-06-11   \n",
+       "\n",
+       "        source                                             name  \\\n",
+       "0  city scrape                      Huge Four Bedroom Apartment   \n",
+       "1  city scrape                            One Bedroom Apartment   \n",
+       "2  city scrape          Two Bedroom Newly Refurbished Apartment   \n",
+       "3  city scrape                Refurbished Two Bedroom Apartment   \n",
+       "4  city scrape  Spacious refurbished 2 bedroom apt with balcony   \n",
+       "\n",
+       "                                         description  \\\n",
+       "0  An extremely large and sunny four bedroom grou...   \n",
+       "1  Recently refurbished sunny one bedroom first f...   \n",
+       "2  A large and sunny two bedroom second floor apa...   \n",
+       "3  A large and sunny two bedroom second floor apa...   \n",
+       "4  Completely refurbished 2 bedroom apt to sleep ...   \n",
+       "\n",
+       "                               neighborhood_overview  \\\n",
+       "0  Catford is a well established London suburb. T...   \n",
+       "1                                                NaN   \n",
+       "2  Catford is a well established London suburb. T...   \n",
+       "3  Catford is a well established London suburb. T...   \n",
+       "4                                                NaN   \n",
+       "\n",
+       "                                         picture_url  host_id  ...  \\\n",
+       "0  https://a0.muscache.com/pictures/hosting/Hosti...  1389063  ...   \n",
+       "1  https://a0.muscache.com/pictures/hosting/Hosti...  1389063  ...   \n",
+       "2  https://a0.muscache.com/pictures/50662093/af12...  1389063  ...   \n",
+       "3  https://a0.muscache.com/pictures/50660860/e440...  1389063  ...   \n",
+       "4  https://a0.muscache.com/pictures/airflow/Hosti...  1389063  ...   \n",
+       "\n",
+       "  review_scores_communication review_scores_location review_scores_value  \\\n",
+       "0                        4.74                   4.62                4.72   \n",
+       "1                        4.25                   4.54                4.42   \n",
+       "2                        4.52                   4.36                4.38   \n",
+       "3                        4.61                   4.50                4.47   \n",
+       "4                        4.74                   4.37                4.59   \n",
+       "\n",
+       "  license instant_bookable calculated_host_listings_count  \\\n",
+       "0     NaN                t                           11.0   \n",
+       "1     NaN                t                           11.0   \n",
+       "2     NaN                t                           11.0   \n",
+       "3     NaN                t                           11.0   \n",
+       "4     NaN                t                           11.0   \n",
+       "\n",
+       "  calculated_host_listings_count_entire_homes  \\\n",
+       "0                                        11.0   \n",
+       "1                                        11.0   \n",
+       "2                                        11.0   \n",
+       "3                                        11.0   \n",
+       "4                                        11.0   \n",
+       "\n",
+       "  calculated_host_listings_count_private_rooms  \\\n",
+       "0                                          0.0   \n",
+       "1                                          0.0   \n",
+       "2                                          0.0   \n",
+       "3                                          0.0   \n",
+       "4                                          0.0   \n",
+       "\n",
+       "  calculated_host_listings_count_shared_rooms reviews_per_month  \n",
+       "0                                         0.0              0.51  \n",
+       "1                                         0.0              0.22  \n",
+       "2                                         0.0              0.43  \n",
+       "3                                         0.0              0.30  \n",
+       "4                                         0.0              0.35  \n",
+       "\n",
+       "[5 rows x 79 columns]"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "\n",
+    "df = pd.read_csv(\"Listings.csv\")\n",
+    "df.head()\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "318cb162-6cc4-43b2-a609-b3619d7d04fc",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "Index(['id', 'listing_url', 'scrape_id', 'last_scraped', 'source', 'name',\n",
+       "       'description', 'neighborhood_overview', 'picture_url', 'host_id',\n",
+       "       'host_url', 'host_name', 'host_since', 'host_location', 'host_about',\n",
+       "       'host_response_time', 'host_response_rate', 'host_acceptance_rate',\n",
+       "       'host_is_superhost', 'host_thumbnail_url', 'host_picture_url',\n",
+       "       'host_neighbourhood', 'host_listings_count',\n",
+       "       'host_total_listings_count', 'host_verifications',\n",
+       "       'host_has_profile_pic', 'host_identity_verified', 'neighbourhood',\n",
+       "       'neighbourhood_cleansed', 'neighbourhood_group_cleansed', 'latitude',\n",
+       "       'longitude', 'property_type', 'room_type', 'accommodates', 'bathrooms',\n",
+       "       'bathrooms_text', 'bedrooms', 'beds', 'amenities', 'price',\n",
+       "       'minimum_nights', 'maximum_nights', 'minimum_minimum_nights',\n",
+       "       'maximum_minimum_nights', 'minimum_maximum_nights',\n",
+       "       'maximum_maximum_nights', 'minimum_nights_avg_ntm',\n",
+       "       'maximum_nights_avg_ntm', 'calendar_updated', 'has_availability',\n",
+       "       'availability_30', 'availability_60', 'availability_90',\n",
+       "       'availability_365', 'calendar_last_scraped', 'number_of_reviews',\n",
+       "       'number_of_reviews_ltm', 'number_of_reviews_l30d', 'availability_eoy',\n",
+       "       'number_of_reviews_ly', 'estimated_occupancy_l365d',\n",
+       "       'estimated_revenue_l365d', 'first_review', 'last_review',\n",
+       "       'review_scores_rating', 'review_scores_accuracy',\n",
+       "       'review_scores_cleanliness', 'review_scores_checkin',\n",
+       "       'review_scores_communication', 'review_scores_location',\n",
+       "       'review_scores_value', 'license', 'instant_bookable',\n",
+       "       'calculated_host_listings_count',\n",
+       "       'calculated_host_listings_count_entire_homes',\n",
+       "       'calculated_host_listings_count_private_rooms',\n",
+       "       'calculated_host_listings_count_shared_rooms', 'reviews_per_month'],\n",
+       "      dtype='object')"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df.columns"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "036685e5-dcb4-4d1a-97db-378dda6ea21c",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "count    22367.000000\n",
+       "mean        14.738409\n",
+       "std         89.072839\n",
+       "min          1.000000\n",
+       "25%          1.000000\n",
+       "50%          2.000000\n",
+       "75%          3.000000\n",
+       "max       1580.000000\n",
+       "Name: host_total_listings_count, dtype: float64"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df['host_total_listings_count'].describe() #房东房源分布"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "7cc4c3fe-0dac-48ae-aac8-f32f7a4164f3",
+   "metadata": {},
+   "source": [
+    "定义：\n",
+    "一个 host_id = 一个 Airbnb 账户 = 一个房东（无论名字里写几个人）"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "fc35c4a6-9d38-4c8b-804a-27f9c1f0c47a",
+   "metadata": {},
+   "source": [
+    "定义：\n",
+    "我们将 “专业房东 (professional landlord)” 定义为：在 Airbnb 平台上拥有至少 2 套整套出租房源 (entire homes) 的房东。此定义基于英国行业惯例，即规模化管理、多房源及类似商业经营行为。资料显示，专业房东通常视出租为主要业务、拥有多个房源并以租金收益为主。我们同时进行了敏感性分析：将 ≥3 套整套房源定义为更严格情形，以观察结果变化。"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 16,
+   "id": "66cf9905-5815-40a7-9360-ebe9dd9649d7",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "count    22379.000000\n",
+       "mean         4.832477\n",
+       "std         25.864525\n",
+       "min          0.000000\n",
+       "25%          0.000000\n",
+       "50%          1.000000\n",
+       "75%          1.000000\n",
+       "max        282.000000\n",
+       "Name: calculated_host_listings_count_entire_homes, dtype: float64"
+      ]
+     },
+     "execution_count": 16,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[\"host_id\"].nunique() # host_id = Airbnb 给每个房东的唯一账号 ID // Pandas的函数 .nunique()：count the number of unique values（统计不重复值的个数）"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "de22bcc4-0fd0-4c6e-b73c-3da493e42e83",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "count    22379.000000\n",
+       "mean         4.832477\n",
+       "std         25.864525\n",
+       "min          0.000000\n",
+       "25%          0.000000\n",
+       "50%          1.000000\n",
+       "75%          1.000000\n",
+       "max        282.000000\n",
+       "Name: calculated_host_listings_count_entire_homes, dtype: float64"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "df[\"calculated_host_listings_count_entire_homes\"].describe() # 每个id下的整套房源 最能反映“商业化经营”。// .describe() 是 Pandas 的统计摘要方法"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "3320e815-da2a-4362-966e-7a5569e962f7",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "【定义 A：≥2 整套房源】\n",
+      "专业房东数量（人）: 1247\n",
+      "专业房东管理的房源数量: 3244\n",
+      "\n",
+      "\n"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "\n",
+    "### 定义 1：专业房东（Professional Landlord）\n",
+    "### 标准：拥有 >= 2 套整套房源（calculated_host_listings_count_entire_homes ≥ 2）\n",
+    "\n",
+    "pro_landlords = df[df[\"calculated_host_listings_count_entire_homes\"] >= 2]   # 从数据中找出拥有至少 2 套整套房源的行 + 条件筛选//把筛选出来的结果保存为新 DataFrame，叫 pro_landlords\n",
+    "\n",
+    "num_pro_landlords = pro_landlords[\"host_id\"].nunique()    # 从专业房东的房源表里取“host_id”这一列//统计独特的 host_id 的数量（不重复计数）//结果保存为 num_pro_landlords\n",
+    "num_pro_properties = pro_landlords.shape[0]    # 0：取第一部分（行数）//将这个数字保存为 num_pro_properties，因为pro_landlords 的每行都是一套房源，即行数 = 房源数\n",
+    "\n",
+    "print(\"【定义 A：≥2 整套房源】\")\n",
+    "print(\"专业房东数量（人）:\", num_pro_landlords)\n",
+    "print(\"专业房东管理的房源数量:\", num_pro_properties)\n",
+    "print(\"\\n\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "efb1ad09-02a9-4de8-974a-dbc1595c8984",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "【定义 B：≥3 整套房源】\n",
+      "严格定义专业房东数量（人）: 619\n",
+      "严格定义专业房东管理的房源数量: 2247\n"
+     ]
+    }
+   ],
+   "source": [
+    "### 定义 2：严格版专业房东（Strict Professional Landlord）\n",
+    "### 标准：拥有 >= 3 套整套房源\n",
+    "\n",
+    "strict_pro = df[df[\"calculated_host_listings_count_entire_homes\"] >= 3]\n",
+    "\n",
+    "num_strict_pro = strict_pro[\"host_id\"].nunique()\n",
+    "num_strict_properties = strict_pro.shape[0]\n",
+    "\n",
+    "print(\"【定义 B：≥3 整套房源】\")\n",
+    "print(\"严格定义专业房东数量（人）:\", num_strict_pro)\n",
+    "print(\"严格定义专业房东管理的房源数量:\", num_strict_properties)\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.11"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
